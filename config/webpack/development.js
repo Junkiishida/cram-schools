@@ -1,5 +1,17 @@
-process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+// config/webpack/environment.js
+const { environment } = require('@rails/webpacker')
 
-const environment = require('./environment')
+// Bootstrap 4 has a dependency over jQuery & Popper.js:
+const webpack = require('webpack')
+environment.plugins.prepend('Provide',
+new webpack.ProvidePlugin({
 
-module.exports = environment.toWebpackConfig()
+$: 'jquery',
+
+jQuery: 'jquery',
+
+Popper: ['popper.js', 'default']
+})
+)
+
+module.exports = environment
